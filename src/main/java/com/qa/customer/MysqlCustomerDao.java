@@ -1,105 +1,124 @@
 package com.qa.customer;
 
-import java.sql.Connection;  
+import java.sql.Connection;   
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-import com.qa.controller.Action;
-import com.qa.controller.CrudController;
-import com.qa.controller.CustomerController;
+import org.apache.log4j.Logger;
+
 import com.qa.databases.Dao;
-import com.qa.persistence.dao.CustomerDaoMysql;
-import com.qa.persistence.domain.Domain;
-import com.qa.services.CustomerServices;
-import com.qa.utils.Config;
-import com.qa.utils.Utils;
+import com.qa.domain.Customer;
 
 public class MysqlCustomerDao implements Dao<Customer> {
-	private Connection connection;
 	
-	public MysqlCustomerDao() throws SQLException {
-		this.connection = DriverManager.getConnection("jdbc:mysql://35.189.111.39/IMS","root","Iamlegend123");
-		}
+	public static final Logger LOGGER = Logger.getLogger(MysqlCustomerDao.class);
 	
-	public ArrayList<Customer> readAll() {
-		ArrayList<Customer> customers = new ArrayList<Customer>();
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from Customers");
+	private String jdbcConnectionUrl;
+	private String username;
+	private String password;
+	
+	public MysqlCustomerDao(String username, String password) {
+		this.jdbcConnectionUrl = "jdbc:mysql://35.189.111.39:3306/IMS";
+		this.username = username;
+		this.password = password;
+	}
+	
+	public MysqlCustomerDao(String jdbcConnectionUrl, String username, String password) {
+		this.jdbcConnectionUrl = jdbcConnectionUrl;
+		this.username = username;
+		this.password = password;
+	}
+	
+	Customer customerFromResultSet(ResultSet resultSet) throws SQLException {
+		Long id = resultSet.getLong("customers_id");
+		String name = resultSet.getString("name");
+		return new Customer(id, name);
+	}
+
+	@Override
+	public List<Customer> readAll() {
+		try (Connection connection = DriverManager
+				.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("select * from customers");) {
+			ArrayList<Customer> customers = new ArrayList<>();
 			while (resultSet.next()) {
-				Long customerId = resultSet.getLong("Customers_ID");
-				String name = resultSet.getString("name");
-				Customer customer = new Customer(customerId, name);
-				customers.add(customer);
+				customers.add(customerFromResultSet(resultSet));
 			}
-		
+			return customers;
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
+
+	public Customer readLatest() {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY customers_id DESC LIMIT 1");) {
+			resultSet.next();
+			return customerFromResultSet(resultSet);
 		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		return customers;
-		
-	}
-	
-	public void create(Customer customer) {
-		public void imsSystem() {
-			LOGGER.info("What is your username");
-			Config.username = Utils.getInput();
-			LOGGER.info("What is your password");
-			Config.password = Utils.getInput();
-			
-			LOGGER.info("Which entity would you like to use?");
-			Domain.printDomains();
-			
-			Domain domain = Domain.getDomain();
-			LOGGER.info("What would you like to do with " + domain.name().toLowerCase() + ":");
-
-			Action.printActions();
-			Action action = Action.getAction();
-			
-			switch (domain) {
-			case CUSTOMER:
-				CustomerController customerController = new CustomerController(new CustomerServices(new CustomerDaoMysql()));
-				doAction(customerController, action);
-			case ITEM:
-				break;
-			case ORDER:
-				break;
-			case STOP:
-				break;
-			}
-			
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
 		}
-		
-		public void doAction(CrudController<?> crudController, Action action) {
-			switch (action) {
-			case CREATE:
-				crudController.create();
-				break;
-			case READ:
-				crudController.readAll();
-				break;
-			case UPDATE:
-				crudController.update();
-				break;
-			case DELETE:
-				crudController.delete();
-				break;
-			case RETURN:
-				break;
-			}
-		}
-	} 
-	
-	public void update(Customer customer) {
-		
-		
-	}
-	
-	public void delete(int id) {
-		
+		return null;
 	}
 
+	@Override
+	public Customer create(Customer customer) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("insert into customers(name) values('" + customer.getName()+"')");
+			//insert into customers(name) values('bob
+			
+			return readLatest();
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	public Customer readCustomer(Long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT FROM customers where customers_id = "+id);) {
+			resultSet.next();
+			return customerFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public Customer update(Customer customer) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("update customers set first_name ='" + customer.getName());
+			return readCustomer(customer.getcustomers_id());
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public void delete(long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("delete from customers where customers_id = " + id);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+	}
 }

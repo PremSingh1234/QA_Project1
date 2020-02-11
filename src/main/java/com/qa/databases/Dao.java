@@ -1,15 +1,14 @@
 package com.qa.databases;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface Dao <T> {
-	//C
-	public void create(T t);
-	//R
-	public ArrayList<T> readAll();
-	//U
-	public void update(T t);
-	//D
-	public void delete(int id);
+public interface Dao<T> {
 
+    List<T> readAll();
+     
+    T create(T t);
+     
+    T update(T t);
+     
+    void delete(long id);
 }
