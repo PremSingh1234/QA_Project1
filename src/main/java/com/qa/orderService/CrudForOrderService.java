@@ -1,9 +1,9 @@
-package ItemService;
+package com.qa.orderService;
 
 import java.util.List;
 
-public interface CrudForItemService<T> {
-
+public interface CrudForOrderService<T> {
+	
     public List<T> readAll();
     
     T create(T t);

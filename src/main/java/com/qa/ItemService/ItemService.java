@@ -1,4 +1,4 @@
-package ItemService;
+package com.qa.ItemService;
 
 import java.util.List;
 

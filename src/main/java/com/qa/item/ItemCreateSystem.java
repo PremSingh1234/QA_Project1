@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.qa.ItemService.CrudForItemService;
 import com.qa.domain.Item;
 import com.qa.utils.Utils;
-import ItemService.CrudForItemService;
 
+/**
+ * Takes in customer details for CRUD functionality
+ *
+ */
 public class ItemCreateSystem implements CrudForItem<Item> {
 	
 public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
@@ -22,6 +26,9 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 		return Utils.getInput();
 	}
 	
+	/**
+	 * Reads all customers to the logger
+	 */
 	@Override
 	public List<Item> readAll() {
 		List<Item> items = itemService.readAll();
@@ -31,7 +38,9 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 		return items;
 	}
 		
-		
+	/**
+	 * Creates a customer by taking in user input
+	 */	
 	@Override
 	public Item create() {
 		LOGGER.info("Please enter a item name");
@@ -43,6 +52,9 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 		return item;
 	}
 
+	/**
+	 * Updates an existing customer by taking in user input
+	 */
 	@Override
 	public Item update() {
 		LOGGER.info("Please enter the id of the item you would like to update");
@@ -57,6 +69,9 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 		
 	}
 
+	/**
+	 * Deletes an existing customer by the id of the customer
+	 */
 	@Override
 	public void delete() {
 		LOGGER.info("Please enter the id of the customer you would like to delete");

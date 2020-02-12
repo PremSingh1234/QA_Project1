@@ -1,58 +1,80 @@
 package com.qa.domain;
 
 public class Order {
-	private Long Order_ID;
-	private Long Customers_ID;
-	private Long Qty;
-	private String item;
-	private Long price_per_item;
+	private Long order_id;
+	private Long customers_id;
+	private Double total_price;
 	
-	public Order(Long Order_ID, Long Customers_ID, Long Qty, String item, Long price_per_item) {
-		this.Order_ID = Order_ID;
-		this.Customers_ID = Customers_ID;
-		this.Qty = Qty;
-		this.item = item;
-		this.price_per_item = price_per_item;
+	public Order(Long order_id, Long customers_id ) {
+		this.order_id = order_id;
+		this.customers_id = customers_id;
+		this.total_price = total_price;
 	}
 
-	public Long getOrder_ID() {
-		return Order_ID;
+	public Long getOrder_id() {
+		return order_id;
 	}
 
-	public void setOrder_ID(Long order_ID) {
-		Order_ID = order_ID;
+	public void setOrder_id(Long order_id) {
+		this.order_id = order_id;
 	}
 
-	public Long getCustomers_ID() {
-		return Customers_ID;
+	public Long getCustomers_id() {
+		return customers_id;
 	}
 
-	public void setCustomers_ID(Long customers_ID) {
-		Customers_ID = customers_ID;
+	public void setCustomers_id(Long customers_id) {
+		this.customers_id = customers_id;
 	}
 
-	public Long getQty() {
-		return Qty;
+	public Double getToatl_price() {
+		return total_price;
 	}
 
-	public void setQty(Long qty) {
-		Qty = qty;
+	public void setToatl_price(Double total_price) {
+		this.total_price = total_price;
 	}
 
-	public String getItem() {
-		return item;
+public String toString() {
+		
+		return " OrderId: " + order_id + "CustomerId: " + customers_id + " TotalPrice " + total_price;
 	}
 
-	public void setItem(String item) {
-		this.item = item;
-	}
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((order_id == null) ? 0 : order_id.hashCode());
+	result = prime * result + ((customers_id == null) ? 0 : customers_id.hashCode());
+	result = prime * result + ((total_price == null) ? 0 : total_price.hashCode());
+	return result;
+}
 
-	public Long getPrice_per_item() {
-		return price_per_item;
-	}
-
-	public void setPrice_per_item(Long price_per_item) {
-		this.price_per_item = price_per_item;
-	}
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Order other = (Order) obj;
+	if (order_id == null) {
+		if (other.order_id != null)
+			return false;
+	} else if (!order_id.equals(other.order_id))
+		return false;
+	if (customers_id == null) {
+		if (other.customers_id != null)
+			return false;
+	} else if (!customers_id.equals(other.customers_id))
+		return false;
+	if (total_price == null) {
+		if (other.total_price != null)
+			return false;
+	} else if (!total_price.equals(other.total_price))
+		return false;
+	return true;
+}
 
 }

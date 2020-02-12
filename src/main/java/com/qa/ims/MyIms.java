@@ -3,6 +3,7 @@ package com.qa.ims;
 import org.apache.log4j.Logger;
 
 import com.qa.CustomerServices.CsutomerService;
+import com.qa.ItemService.ItemService;
 import com.qa.customer.Actions;
 import com.qa.customer.CrudForCustomer;
 import com.qa.customer.CustomerCreateSystem;
@@ -11,10 +12,10 @@ import com.qa.domain.TheDomain;
 import com.qa.item.CrudForItem;
 import com.qa.item.ItemCreateSystem;
 import com.qa.item.MysqlItemDao;
-import com.qa.utils.Config;
 import com.qa.utils.Utils;
 
-import ItemService.ItemService;
+
+
 
 public class MyIms {
 	
@@ -22,36 +23,38 @@ public class MyIms {
 
 	public void imsSystem() {
 		LOGGER.info("What is your username");
-		Config.username = Utils.getInput();
+		String username = Utils.getInput();
 		LOGGER.info("What is your password");
-		Config.password = Utils.getInput();
+		String password = Utils.getInput();
 		
-		LOGGER.info("Which entity would you like to use?");
-		TheDomain.printTheDomains();
-		
-		TheDomain theDomain = TheDomain.getTheDomain();
-		LOGGER.info("What would you like to do with " + theDomain.name().toLowerCase() + ":");
-		
-		Actions.printActions();
-		Actions actions = Actions.getActions();
-		
-		switch (theDomain) {
-		case CUSTOMER:
-			CustomerCreateSystem customerCreateSystem = new CustomerCreateSystem(new CsutomerService(new MysqlCustomerDao(Config.username, Config.password)));
-			doActions(customerCreateSystem, actions);
-			break;
-		case ITEM:
-			ItemCreateSystem itemCreateSystem = new ItemCreateSystem(new ItemService(new MysqlItemDao(Config.username, Config.password)));
-			doActionsItems(itemCreateSystem, actions);	
-			break;
-		case ORDER:
-			break;
-		case STOP:
-			break;
-		default:
-			break;
+		boolean looper = false;
+		while (!looper) {
+			LOGGER.info("Which entity would you like to use?");
+			TheDomain.printTheDomains();
+			TheDomain theDomain = TheDomain.getTheDomain();
+			Actions actions = null;
+			if (theDomain != TheDomain.STOP) {
+				LOGGER.info("What would you like to do with " + theDomain.name().toLowerCase() + ":");
+				Actions.printActions();
+				actions = Actions.getActions();
+			}
+			switch (theDomain) {
+			case CUSTOMER:
+				CustomerCreateSystem customerCreateSyetem = new CustomerCreateSystem(
+						new CsutomerService(new MysqlCustomerDao(username, password)));
+				doActions(customerCreateSyetem, actions);
+				break;
+			case ITEM:
+				ItemCreateSystem itemCreateSystem = new ItemCreateSystem(new ItemService(new MysqlItemDao(username, password)));
+				doActionsItems(itemCreateSystem, actions);
+				break;
+			case ORDER:
+				break;
+			case STOP:
+				looper = true;
+				break;
+			}
 		}
-		
 	}
 	
 	public void doActions(CrudForCustomer<?> crudForCustomer, Actions actions) {

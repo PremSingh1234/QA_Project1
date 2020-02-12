@@ -8,6 +8,10 @@ import com.qa.CustomerServices.CrudForService;
 import com.qa.domain.Customer;
 import com.qa.utils.Utils;
 
+/**
+ * Takes in customer details for CRUD functionality
+ *
+ */
 public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 	
 	public static final Logger LOGGER = Logger.getLogger(CustomerCreateSystem.class);
@@ -22,6 +26,9 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 		return Utils.getInput();
 	}
 	
+	/**
+	 * Reads all customers to the logger
+	 */
 	@Override
 	public List<Customer> readAll() {
 		List<Customer> customers = customerService.readAll();
@@ -30,8 +37,10 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 		}
 		return customers;
 	}
-		
-		
+	
+	/**
+	 * Creates a customer by taking in user input
+	 */
 	@Override
 	public Customer create() {
 		LOGGER.info("Please enter a first name");
@@ -41,6 +50,9 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 		return customer;
 	}
 
+	/**
+	 * Updates an existing customer by taking in user input
+	 */
 	@Override
 	public Customer update() {
 		LOGGER.info("Please enter the id of the customer you would like to update");
@@ -53,6 +65,9 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 		
 	}
 
+	/**
+	 * Deletes an existing customer by the id of the customer
+	 */
 	@Override
 	public void delete() {
 		LOGGER.info("Please enter the id of the customer you would like to delete");

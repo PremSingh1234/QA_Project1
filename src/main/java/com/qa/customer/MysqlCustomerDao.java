@@ -39,6 +39,11 @@ public class MysqlCustomerDao implements Dao<Customer> {
 		return new Customer(id, name);
 	}
 
+	/**
+	 * Reads all customers from the database
+	 * 
+	 * @return A list of customers
+	 */
 	@Override
 	public List<Customer> readAll() {
 		try (Connection connection = DriverManager
@@ -70,6 +75,11 @@ public class MysqlCustomerDao implements Dao<Customer> {
 		return null;
 	}
 
+	/**
+	 * Creates a customer in the database
+	 * 
+	 * @param customer - takes in a customer object. id will be ignored
+	 */
 	@Override
 	public Customer create(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
@@ -97,6 +107,13 @@ public class MysqlCustomerDao implements Dao<Customer> {
 		return null;
 	}
 
+	/**
+	 * Updates a customer in the database
+	 * 
+	 * @param customer - takes in a customer object, the id field will be used to
+	 *                 update that customer in the database
+	 * @return 
+	 */
 	@Override
 	public Customer update(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
@@ -110,6 +127,11 @@ public class MysqlCustomerDao implements Dao<Customer> {
 		return null;
 	}
 
+	/**
+	 * Deletes a customer in the database
+	 * 
+	 * @param id - id of the customer
+	 */
 	@Override
 	public void delete(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);

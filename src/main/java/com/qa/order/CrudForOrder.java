@@ -1,4 +1,4 @@
-package com.qa.customer;
+package com.qa.order;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import java.util.List;
  * Create, Read, Update and Delete controller.
  * Takes in inputs for each action to be sent to a service class
  */
-public interface CrudForCustomer<T> {
+public interface CrudForOrder<T> {
+
+	List<T> readAll();
     
-    List<T> readAll();
-     
     T create();
      
     T update();
@@ -17,3 +17,4 @@ public interface CrudForCustomer<T> {
     void delete();
 
 }
+
