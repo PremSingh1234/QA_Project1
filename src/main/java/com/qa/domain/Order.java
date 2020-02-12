@@ -1,4 +1,4 @@
-package com.qa.order;
+package com.qa.domain;
 
 public class Order {
 	private Long Order_ID;

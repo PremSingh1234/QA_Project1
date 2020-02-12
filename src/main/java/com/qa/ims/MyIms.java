@@ -8,8 +8,13 @@ import com.qa.customer.CrudForCustomer;
 import com.qa.customer.CustomerCreateSystem;
 import com.qa.customer.MysqlCustomerDao;
 import com.qa.domain.TheDomain;
+import com.qa.item.CrudForItem;
+import com.qa.item.ItemCreateSystem;
+import com.qa.item.MysqlItemDao;
 import com.qa.utils.Config;
 import com.qa.utils.Utils;
+
+import ItemService.ItemService;
 
 public class MyIms {
 	
@@ -36,6 +41,8 @@ public class MyIms {
 			doActions(customerCreateSystem, actions);
 			break;
 		case ITEM:
+			ItemCreateSystem itemCreateSystem = new ItemCreateSystem(new ItemService(new MysqlItemDao(Config.username, Config.password)));
+			doActionsItems(itemCreateSystem, actions);	
 			break;
 		case ORDER:
 			break;
@@ -47,7 +54,7 @@ public class MyIms {
 		
 	}
 	
-	public void doActions(CrudForCustomer crudForCustomer, Actions actions) {
+	public void doActions(CrudForCustomer<?> crudForCustomer, Actions actions) {
 		switch (actions) {
 		case CREATE:
 			crudForCustomer.create();
@@ -60,6 +67,28 @@ public class MyIms {
 			break;
 		case DELETE:
 			crudForCustomer.delete();
+			break;
+		case RETURN:
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
+	public void doActionsItems(CrudForItem<?> crudForItems, Actions actions) {
+		switch (actions) {
+		case CREATE:
+			crudForItems.create();
+			break;
+		case READ:
+			crudForItems.readAll();
+			break;
+		case UPDATE:
+			crudForItems.update();
+			break;
+		case DELETE:
+			crudForItems.delete();
 			break;
 		case RETURN:
 			break;

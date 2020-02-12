@@ -44,7 +44,7 @@ public class MysqlCustomerDao implements Dao<Customer> {
 		try (Connection connection = DriverManager
 				.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from customers");) {
+				ResultSet resultSet = statement.executeQuery("select * from customers" + ";")) {
 			ArrayList<Customer> customers = new ArrayList<>();
 			while (resultSet.next()) {
 				customers.add(customerFromResultSet(resultSet));
@@ -60,7 +60,7 @@ public class MysqlCustomerDao implements Dao<Customer> {
 	public Customer readLatest() {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY customers_id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY customers_id DESC LIMIT 1" + ";")) {
 			resultSet.next();
 			return customerFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -74,8 +74,7 @@ public class MysqlCustomerDao implements Dao<Customer> {
 	public Customer create(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("insert into customers(name) values('" + customer.getName()+"')");
-			//insert into customers(name) values('bob
+			statement.executeUpdate("insert into customers(name) values('" + customer.getName()+"')"+";");
 			
 			return readLatest();
 		} catch (Exception e) {
@@ -88,7 +87,7 @@ public class MysqlCustomerDao implements Dao<Customer> {
 	public Customer readCustomer(Long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT FROM customers where customers_id = "+id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers where customers_id = "+id+";")) {
 			resultSet.next();
 			return customerFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -102,7 +101,7 @@ public class MysqlCustomerDao implements Dao<Customer> {
 	public Customer update(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update customers set first_name ='" + customer.getName());
+			statement.executeUpdate("update customers set name ='" + customer.getName() +";" + "' where customers_id = " + customer.getcustomers_id() + ";");
 			return readCustomer(customer.getcustomers_id());
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());

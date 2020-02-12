@@ -43,13 +43,22 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 
 	@Override
 	public Customer update() {
-		return null;
+		LOGGER.info("Please enter the id of the customer you would like to update");
+		Long id = Long.valueOf(getInput());
+		LOGGER.info("Please enter a first name");
+		String name = getInput();
+		Customer customer = customerService.update(new Customer(id, name));
+		LOGGER.info("Customer Updated");
+		return customer;
 		
 	}
 
 	@Override
 	public void delete() {
-		
+		LOGGER.info("Please enter the id of the customer you would like to delete");
+		Long id = Long.valueOf(getInput());
+		customerService.delete(id);
+		LOGGER.info("Customer Deleted");
 	}
 
 }

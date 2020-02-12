@@ -1,25 +1,28 @@
 package com.qa.domain;
 
-public class Customer {
-	private Long customers_id;
+public class Item {
+	private Long item_id;
 	private String name;
+	private Double price;
 	
-	public Customer(String name) {
+	public Item(String name, Double price) {
 		this.name = name;
+		this.price=price;
 	}
 	
-	public Customer(Long customers_id, String name) {
-		this.customers_id = customers_id;
+	public Item(Long item_id, String name, Double price) {
+		this.item_id = item_id;
 		this.name = name;
+		this.price = price;
 		
 	}
-	
-	public Long getcustomers_id() {
-		return customers_id;
+
+	public Long getItem_id() {
+		return item_id;
 	}
 
-	public void setcustomers_id(Long customers_id) {
-		this.customers_id = customers_id;
+	public void setItem_id(Long item_id) {
+		this.item_id = item_id;
 	}
 
 	public String getName() {
@@ -29,17 +32,25 @@ public class Customer {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	
 	public String toString() {
 		
-		return " Customer_Id: " +customers_id+ "Name: " +name;
+		return " ItemId: " +item_id+ "ItemName: " +name+ " ItemPrice " +price;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((customers_id == null) ? 0 : customers_id.hashCode());
+		result = prime * result + ((item_id == null) ? 0 : item_id.hashCode());
 		return result;
 	}
 
@@ -51,16 +62,16 @@ public class Customer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Customer other = (Customer) obj;
+		Item other = (Item) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (customers_id == null) {
-			if (other.customers_id != null)
+		if (item_id == null) {
+			if (other.item_id != null)
 				return false;
-		} else if (!customers_id.equals(other.customers_id))
+		} else if (!item_id.equals(other.item_id))
 			return false;
 		return true;
 	}
