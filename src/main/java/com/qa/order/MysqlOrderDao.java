@@ -33,10 +33,9 @@ public static final Logger LOGGER = Logger.getLogger(MysqlOrderDao.class);
 	}
 	
 	Order orderFromResultSet(ResultSet resultSet) throws SQLException {
-		Long order_id = resultSet.getLong("order_id");
-		Long customer_id = resultSet.getLong("customer_id");
-		Double total_price = resultSet.getDouble("total_price");
-		return new Order(order_id, customer_id);
+		Long orderId = resultSet.getLong("order_id");
+		Long customersId = resultSet.getLong("customers_id");
+		return new Order(orderId, customersId);
 	}
 
 	@Override
@@ -68,6 +67,57 @@ public static final Logger LOGGER = Logger.getLogger(MysqlOrderDao.class);
 			LOGGER.error(e.getMessage());
 		}
 		return null;
+	}
+
+	@Override
+	public Order create(Order order) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("insert into orders(order_id, customers_id) values('" + order.getOrderId()+ "','" + order.getCustomersId()+"')" + ";");
+			
+			return readLatest();
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+	return null;
+	}
+
+	public Order readOrder(Order order) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders where order_id = "+order+";")) {
+			resultSet.next();
+			return orderFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	@Override
+	public Order update(Order order) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("update orders set order_id ='" + order.getOrderId() +";" + "' where customers_id ='" + order.getCustomersId() + ";");
+			return readOrder(order);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public void delete(long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("delete from orders where order_id = " + id);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 	}
 	
 }

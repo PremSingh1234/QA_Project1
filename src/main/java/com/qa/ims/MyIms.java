@@ -12,13 +12,14 @@ import com.qa.domain.TheDomain;
 import com.qa.item.CrudForItem;
 import com.qa.item.ItemCreateSystem;
 import com.qa.item.MysqlItemDao;
+import com.qa.order.CrudForOrder;
+import com.qa.order.MysqlOrderDao;
+import com.qa.order.OrderCreateSystem;
+import com.qa.orderService.OrderService;
 import com.qa.utils.Utils;
 
-
-
-
 public class MyIms {
-	
+
 	public static final Logger LOGGER = Logger.getLogger(MyIms.class);
 
 	public void imsSystem() {
@@ -26,7 +27,7 @@ public class MyIms {
 		String username = Utils.getInput();
 		LOGGER.info("What is your password");
 		String password = Utils.getInput();
-		
+
 		boolean looper = false;
 		while (!looper) {
 			LOGGER.info("Which entity would you like to use?");
@@ -45,10 +46,14 @@ public class MyIms {
 				doActions(customerCreateSyetem, actions);
 				break;
 			case ITEM:
-				ItemCreateSystem itemCreateSystem = new ItemCreateSystem(new ItemService(new MysqlItemDao(username, password)));
+				ItemCreateSystem itemCreateSystem = new ItemCreateSystem(
+						new ItemService(new MysqlItemDao(username, password)));
 				doActionsItems(itemCreateSystem, actions);
 				break;
 			case ORDER:
+				OrderCreateSystem orderCreateSystem = new OrderCreateSystem(
+						new OrderService(new MysqlOrderDao(username, password)));
+				doActionsOrders(orderCreateSystem, actions);
 				break;
 			case STOP:
 				looper = true;
@@ -56,7 +61,7 @@ public class MyIms {
 			}
 		}
 	}
-	
+
 	public void doActions(CrudForCustomer<?> crudForCustomer, Actions actions) {
 		switch (actions) {
 		case CREATE:
@@ -77,8 +82,7 @@ public class MyIms {
 			break;
 		}
 	}
-	
-	
+
 	public void doActionsItems(CrudForItem<?> crudForItems, Actions actions) {
 		switch (actions) {
 		case CREATE:
@@ -97,6 +101,29 @@ public class MyIms {
 			break;
 		default:
 			break;
+		}
+
+	}
+
+	private void doActionsOrders(CrudForOrder<?> crudForOrder, Actions actions) {
+		switch (actions) {
+//		case CREATE:
+//			crudForOrder.create();
+//			break;
+		case READ:
+			crudForOrder.readAll();
+			break;
+//		case UPDATE:
+//			crudForOrder.update();
+//			break;
+		case DELETE:
+			crudForOrder.delete();
+			break;
+		case RETURN:
+			break;
+		default:
+			break;
+
 		}
 	}
 }

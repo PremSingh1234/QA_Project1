@@ -2,12 +2,12 @@ package com.qa.orderService;
 
 import java.util.List;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 import com.qa.databases.Dao;
+import com.qa.domain.Order;
 
 public class OrderService implements CrudForOrderService<Order> {
-	
-Dao<Order> orderDao;
+
+	Dao<Order> orderDao;
 	
 	public OrderService(Dao<Order> orderDao) {
 		this.orderDao = orderDao;

@@ -1,52 +1,47 @@
 package com.qa.domain;
 
 public class Order {
-	private Long order_id;
-	private Long customers_id;
-	private Double total_price;
+	private Long orderId;
+	private Long customersId;
 	
-	public Order(Long order_id, Long customers_id ) {
-		this.order_id = order_id;
-		this.customers_id = customers_id;
-		this.total_price = total_price;
+	public Order(Long orderId, Long customersId) {
+		this.orderId = orderId;
+		this.customersId = customersId;
 	}
 
-	public Long getOrder_id() {
-		return order_id;
+public Long getOrderId() {
+		return orderId;
 	}
 
-	public void setOrder_id(Long order_id) {
-		this.order_id = order_id;
+
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
-	public Long getCustomers_id() {
-		return customers_id;
+
+
+	public Long getCustomersId() {
+		return customersId;
 	}
 
-	public void setCustomers_id(Long customers_id) {
-		this.customers_id = customers_id;
-	}
 
-	public Double getToatl_price() {
-		return total_price;
-	}
 
-	public void setToatl_price(Double total_price) {
-		this.total_price = total_price;
+	public void setCustomersId(Long customersId) {
+		this.customersId = customersId;
 	}
 
 public String toString() {
 		
-		return " OrderId: " + order_id + "CustomerId: " + customers_id + " TotalPrice " + total_price;
+		return " OrderId: " + orderId + "CustomerId: " + customersId;
 	}
 
 @Override
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + ((order_id == null) ? 0 : order_id.hashCode());
-	result = prime * result + ((customers_id == null) ? 0 : customers_id.hashCode());
-	result = prime * result + ((total_price == null) ? 0 : total_price.hashCode());
+	result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+	result = prime * result + ((customersId == null) ? 0 : customersId.hashCode());
 	return result;
 }
 
@@ -59,20 +54,15 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	Order other = (Order) obj;
-	if (order_id == null) {
-		if (other.order_id != null)
+	if (orderId == null) {
+		if (other.orderId != null)
 			return false;
-	} else if (!order_id.equals(other.order_id))
+	} else if (!orderId.equals(other.orderId))
 		return false;
-	if (customers_id == null) {
-		if (other.customers_id != null)
+	if (customersId == null) {
+		if (other.customersId != null)
 			return false;
-	} else if (!customers_id.equals(other.customers_id))
-		return false;
-	if (total_price == null) {
-		if (other.total_price != null)
-			return false;
-	} else if (!total_price.equals(other.total_price))
+	} else if (!customersId.equals(other.customersId))
 		return false;
 	return true;
 }

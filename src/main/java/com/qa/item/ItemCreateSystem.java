@@ -22,7 +22,7 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 		this.itemService = itemService;
 	}
 	
-	String getInput() {
+	public String getInput() {
 		return Utils.getInput();
 	}
 	
@@ -44,7 +44,7 @@ public static final Logger LOGGER = Logger.getLogger(ItemCreateSystem.class);
 	@Override
 	public Item create() {
 		LOGGER.info("Please enter a item name");
-		String name = Utils.getInput();
+		String name = getInput();
 		LOGGER.info("Please enter a item price");
 		Double price = Double.parseDouble(Utils.getInput());
 		Item item = itemService.create(new Item(name,price));

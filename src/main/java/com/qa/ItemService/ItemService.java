@@ -7,7 +7,7 @@ import com.qa.domain.Item;
 
 public class ItemService implements CrudForItemService<Item>{
 	
-Dao<Item> itemDao;
+	Dao<Item> itemDao;
 	
 	public ItemService(Dao<Item> itemDao) {
 		this.itemDao = itemDao;

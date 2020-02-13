@@ -14,7 +14,7 @@ import com.qa.utils.Utils;
  */
 public class OrderCreateSystem implements CrudForOrder<Order> {
 	
-public static final Logger LOGGER = Logger.getLogger(OrderCreateSystem.class);
+	public static final Logger LOGGER = Logger.getLogger(OrderCreateSystem.class);
 	
 	private CrudForOrderService<Order> orderService;
 	
@@ -57,7 +57,7 @@ public static final Logger LOGGER = Logger.getLogger(OrderCreateSystem.class);
 	 */
 	@Override
 	public Order update() {
-		LOGGER.info("Please enter the customer_id of the order you would like to update");
+		LOGGER.info("Please enter the order_id of the order you would like to update");
 		Long orderId = Long.valueOf(getInput());
 		LOGGER.info("Please enter a customer_id");
 		Long customerId = Long.valueOf(getInput()); 

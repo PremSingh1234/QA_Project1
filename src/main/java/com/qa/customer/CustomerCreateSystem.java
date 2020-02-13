@@ -22,7 +22,7 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 		this.customerService = customerService;
 	}
 	
-	String getInput() {
+	public String getInput() {
 		return Utils.getInput();
 	}
 	
@@ -44,7 +44,7 @@ public class CustomerCreateSystem implements CrudForCustomer<Customer> {
 	@Override
 	public Customer create() {
 		LOGGER.info("Please enter a first name");
-		String name = Utils.getInput();
+		String name = getInput();
 		Customer customer = customerService.create(new Customer(name));
 		LOGGER.info("customer created");
 		return customer;
